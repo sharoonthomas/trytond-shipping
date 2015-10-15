@@ -17,6 +17,14 @@ class Sale:
     "Sale"
     __name__ = 'sale.sale'
 
+    service = fields.Many2One(
+        'carrier.service', 'Service',
+        domain=[
+            ('carrier', '=', Eval('carrier')),
+            ('international', '=', Eval('is_international_shipping')),
+        ], ondelete='RESTRICT'
+    )
+
     is_international_shipping = fields.Function(
         fields.Boolean("Is International Shipping"),
         'on_change_with_is_international_shipping'

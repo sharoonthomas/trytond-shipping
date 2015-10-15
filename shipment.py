@@ -90,6 +90,13 @@ class ShipmentOut:
     "Shipment Out"
     __name__ = 'stock.shipment.out'
 
+    service = fields.Many2One(
+        'carrier.service', 'Service',
+        domain=[
+            ('carrier', '=', Eval('carrier')),
+            ('international', '=', Eval('is_international_shipping')),
+        ], ondelete='RESTRICT'
+    )
     is_international_shipping = fields.Function(
         fields.Boolean("Is International Shipping"),
         'on_change_with_is_international_shipping'
